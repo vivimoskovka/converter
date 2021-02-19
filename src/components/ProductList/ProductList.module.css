@@ -1,0 +1,29 @@
+.wrapper {
+    box-sizing: border-box;
+    text-align: center;
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 50px;
+    background-color: white;
+    box-shadow: 2px 3px 3px rgba(0, 0, 0, 0.3);
+    height: 500px;
+}
+
+.table {
+    width: 100%;
+    box-sizing: border-box;
+    color: white;
+}
+
+.head_tr {
+    box-sizing: border-box;
+    font-weight: lighter;
+    background-color: #8B7AA8;
+    height: 50px;
+}
+
+.body_td {
+    padding: 10px 20px;
+    font-style: italic;
+    color: #282c34;
+}

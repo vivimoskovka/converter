@@ -1,0 +1,41 @@
+
+.wrapper {
+    box-sizing: border-box;
+    background-color: #F4EDF6;
+    height: 300px;
+    margin: 0 auto;
+    margin-top: 0px;
+    padding: 50px;
+}
+
+.flex {
+    width: 60%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+}
+
+.header {
+    font-size: 54px;
+    text-align: center;
+    margin-top: 0;
+    font-weight: lighter;
+}
+
+.result {
+    height: 60px;
+    width: 150px;
+    text-align: center;
+    font-size: 48px;
+    color: #5B4A7F;
+    font-weight: bold;
+    background-color: white;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+
+.field {
+    height: 45px;
+    box-sizing: border-box;
+}
