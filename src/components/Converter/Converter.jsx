@@ -6,11 +6,11 @@ const show = (value, fromUnit, tounit) => {
         return +result.toFixed(2)
 }
 
-export const Converter = () => {
+const Converter = () => {
     const [value, setValue] = useState()
     const [answer, setAnswer] = useState(0)
-    const [fromUnit, setFromUnit] = useState ()
-    const [toUnit, setToUnit] = useState ()
+    const [fromUnit, setFromUnit] = useState()
+    const [toUnit, setToUnit] = useState()
 
     const units = [
         {name: 'grams', gram: 1},
@@ -20,7 +20,7 @@ export const Converter = () => {
     ]
 
     useEffect(() => {
-        let ans = show(value, fromUnit, toUnit)
+        const ans = show(value, fromUnit, toUnit)
         if (fromUnit && toUnit && value>0) {
             setAnswer(ans)
         }else {
@@ -35,22 +35,21 @@ export const Converter = () => {
                 <input className={classes.field}
                     type="number"
                     onChange={e => setValue(e.target.value)}
-                >
-                </input>
+                />
                 <select
                     className={classes.field}
                     onChange={e => setFromUnit(e.target.value)}>
                     <option>Choose unit</option>
-                    {units.map((unit, i) => (
-                        <option key = {i} value={unit.gram}>{unit.name}</option>
+                    {units.map((unit) => (
+                        <option key={unit.gram} value={unit.gram}>{unit.name}</option>
                     ))}
                 </select>
                 <select
                     className={classes.field}
                     onChange={e => setToUnit(e.target.value)}>
                     <option>Choose unit</option>
-                    {units.map((unit, i) => (
-                        <option key = {i} value={unit.gram}>{unit.name}</option>
+                    {units.map((unit) => (
+                        <option key = {unit.name} value={unit.gram}>{unit.name}</option>
                     ))}
                 </select>
             </div>
@@ -59,3 +58,5 @@ export const Converter = () => {
         
     )
 }
+
+export default Converter;
