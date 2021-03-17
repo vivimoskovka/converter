@@ -21,7 +21,7 @@ const Quantity = () => {
   const [newProduct, setNewProduct] = useState(newProductInitial);
   const [diameterResult, setDiameterResult] = useState(0);
   const [products, setProducts] = useState([]);
-  const [productList, setProductList] = useState({})
+  const [productList, setProductList] = useState([])
   const db = firebase.database();
 
   const addClickHandler = async () => {
@@ -61,7 +61,7 @@ const Quantity = () => {
      //    console.log(productList)
      //  })
     })
-  },{} )
+  },[] )
 
   return (
     <div className={classes.wrapper}>
