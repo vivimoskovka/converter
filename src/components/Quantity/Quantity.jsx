@@ -21,6 +21,7 @@ const Quantity = () => {
   const [newProduct, setNewProduct] = useState(newProductInitial);
   const [diameterResult, setDiameterResult] = useState(0);
   const [products, setProducts] = useState([]);
+  const [productList, setProductList] = useState({})
   const db = firebase.database();
 
   const addClickHandler = async () => {
@@ -48,6 +49,19 @@ const Quantity = () => {
   useEffect(() => {
     setNewProduct((product) => ({ ...product, result: diameterResult }));
   }, [diameterResult, setNewProduct]);
+
+  useEffect(() => {
+    const ref = db.ref("productlist");
+    ref.on('value', (snapshot) => {
+     setProductList(snapshot.val())
+      console.log(productList)
+     //  snapshot.forEach( (childSnapshot) => {
+     //    const childData = childSnapshot.val()
+     //    setProductList(childData)
+     //    console.log(productList)
+     //  })
+    })
+  },{} )
 
   return (
     <div className={classes.wrapper}>
