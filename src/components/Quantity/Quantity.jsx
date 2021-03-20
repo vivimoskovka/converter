@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import firebase from 'firebase';
 import classes from './Quantity.module.css';
-import ProductList from '../ProductList/ProductList';
+// import ProductList from '../ProductList/ProductList';
 
 const recalculate = (d1, d2) => {
   const num1 = d1 * d1;
@@ -15,6 +15,13 @@ const newProductInitial = {
   result: null,
 };
 
+// const capitalize = word => word[0].toUpperCase() + word.slice(1);
+
+const setItem =  (item, value) => {
+  item(value)
+}
+
+
 const Quantity = () => {
   const [fromDiameter, setFromDiameter] = useState();
   const [toDiameter, setToDiameter] = useState();
@@ -26,7 +33,11 @@ const Quantity = () => {
 
   const addClickHandler = async () => {
     if (newProduct.name && newProduct.quantity) {
-      setProducts((prev) => ([...prev, newProduct]));
+      const p = setProducts((prev) => ([...prev, newProduct]));
+      setItem(setProducts, p)
+      console.log(products)
+
+      // setProducts((prev) => ([...prev, newProduct]));
       setNewProduct(newProductInitial);
 
       const productListRef = db.ref('productlist').push();
@@ -50,16 +61,11 @@ const Quantity = () => {
     setNewProduct((product) => ({ ...product, result: diameterResult }));
   }, [diameterResult, setNewProduct]);
 
-  useEffect(() => {
+  useEffect( () => {
     const ref = db.ref("productlist");
-    ref.on('value', (snapshot) => {
-     setProductList(snapshot.val())
+    ref.on('value',  (snapshot) => {
+      setItem(setProductList, snapshot.val())
       console.log(productList)
-     //  snapshot.forEach( (childSnapshot) => {
-     //    const childData = childSnapshot.val()
-     //    setProductList(childData)
-     //    console.log(productList)
-     //  })
     })
   },[] )
 
@@ -111,7 +117,7 @@ const Quantity = () => {
         <p className={classes.result}>{diameterResult}</p>
         <button type="button" className={classes.button} onClick={addClickHandler}>Add to List</button>
       </form>
-      <ProductList products={products} result={diameterResult} />
+      {/* <ProductList products={products} result={diameterResult} /> */ }
     </div>
   );
 };
