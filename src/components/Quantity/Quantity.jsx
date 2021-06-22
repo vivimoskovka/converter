@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import firebase from 'firebase';
 import classes from './Quantity.module.css';
-// import ProductList from '../ProductList/ProductList';
+import ProductList from '../ProductList/ProductList';
 
 const recalculate = (d1, d2) => {
   const num1 = d1 * d1;
@@ -17,9 +17,6 @@ const newProductInitial = {
 
 // const capitalize = word => word[0].toUpperCase() + word.slice(1);
 
-const setItem =  (item, value) => {
-  item(value)
-}
 
 
 const Quantity = () => {
@@ -29,17 +26,17 @@ const Quantity = () => {
   const [diameterResult, setDiameterResult] = useState(0);
   const [products, setProducts] = useState([]);
   const [productList, setProductList] = useState([])
-  const db = firebase.database();
+
 
   const addClickHandler = async () => {
     if (newProduct.name && newProduct.quantity) {
-      const p = setProducts((prev) => ([...prev, newProduct]));
-      setItem(setProducts, p)
+      setProducts((prev) => ([...prev, newProduct]));
       console.log(products)
+      setProductList()
 
       // setProducts((prev) => ([...prev, newProduct]));
       setNewProduct(newProductInitial);
-
+      const db = firebase.database();
       const productListRef = db.ref('productlist').push();
       await productListRef.set({
         product: newProduct.name,
@@ -51,9 +48,9 @@ const Quantity = () => {
   useEffect(() => {
     const newQuantity = recalculate(fromDiameter, toDiameter, newProduct.quantity);
     if (fromDiameter > 0 && toDiameter > 0 && newProduct.quantity > 0) {
-      setDiameterResult((newProduct.quantity * newQuantity).toFixed());
+      setDiameterResult(Math.floor(newProduct.quantity * newQuantity));
     } else {
-      setDiameterResult('');
+      setDiameterResult(0);
     }
   }, [fromDiameter, toDiameter, newProduct.quantity, setDiameterResult]);
 
@@ -62,11 +59,14 @@ const Quantity = () => {
   }, [diameterResult, setNewProduct]);
 
   useEffect( () => {
+    const db = firebase.database();
     const ref = db.ref("productlist");
     ref.on('value',  (snapshot) => {
-      setItem(setProductList, snapshot.val())
+      setProducts(Object.values(snapshot.val()))
       console.log(productList)
+      console.log(snapshot.val())
     })
+    return () => ref.off()
   },[] )
 
   return (
@@ -117,7 +117,7 @@ const Quantity = () => {
         <p className={classes.result}>{diameterResult}</p>
         <button type="button" className={classes.button} onClick={addClickHandler}>Add to List</button>
       </form>
-      {/* <ProductList products={products} result={diameterResult} /> */ }
+      <ProductList products={products} result={diameterResult} />
     </div>
   );
 };
