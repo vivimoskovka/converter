@@ -15,19 +15,28 @@ const newProductInitial = {
   result: null,
 };
 
+// const capitalize = word => word[0].toUpperCase() + word.slice(1);
+
+
+
 const Quantity = () => {
   const [fromDiameter, setFromDiameter] = useState();
   const [toDiameter, setToDiameter] = useState();
   const [newProduct, setNewProduct] = useState(newProductInitial);
   const [diameterResult, setDiameterResult] = useState(0);
   const [products, setProducts] = useState([]);
-  const db = firebase.database();
+  const [productList, setProductList] = useState([])
+
 
   const addClickHandler = async () => {
     if (newProduct.name && newProduct.quantity) {
       setProducts((prev) => ([...prev, newProduct]));
-      setNewProduct(newProductInitial);
+      console.log(products)
+      setProductList()
 
+      // setProducts((prev) => ([...prev, newProduct]));
+      setNewProduct(newProductInitial);
+      const db = firebase.database();
       const productListRef = db.ref('productlist').push();
       await productListRef.set({
         product: newProduct.name,
@@ -39,15 +48,26 @@ const Quantity = () => {
   useEffect(() => {
     const newQuantity = recalculate(fromDiameter, toDiameter, newProduct.quantity);
     if (fromDiameter > 0 && toDiameter > 0 && newProduct.quantity > 0) {
-      setDiameterResult((newProduct.quantity * newQuantity).toFixed());
+      setDiameterResult(Math.floor(newProduct.quantity * newQuantity));
     } else {
-      setDiameterResult('');
+      setDiameterResult(0);
     }
   }, [fromDiameter, toDiameter, newProduct.quantity, setDiameterResult]);
 
   useEffect(() => {
     setNewProduct((product) => ({ ...product, result: diameterResult }));
   }, [diameterResult, setNewProduct]);
+
+  useEffect( () => {
+    const db = firebase.database();
+    const ref = db.ref("productlist");
+    ref.on('value',  (snapshot) => {
+      setProducts(Object.values(snapshot.val()))
+      console.log(productList)
+      console.log(snapshot.val())
+    })
+    return () => ref.off()
+  },[] )
 
   return (
     <div className={classes.wrapper}>
