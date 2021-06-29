@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import classes from './Converter.module.css'
 
-const show = (value, fromUnit, tounit) => {
+export const showResult = (value, fromUnit, tounit) => {
         const result = (value*fromUnit) / tounit
         return +result.toFixed(2)
 }
 
-const Converter = () => {
+export const Converter = () => {
     const [value, setValue] = useState()
     const [answer, setAnswer] = useState(0)
     const [fromUnit, setFromUnit] = useState()
@@ -20,7 +20,7 @@ const Converter = () => {
     ]
 
     useEffect(() => {
-        const ans = show(value, fromUnit, toUnit)
+        const ans = showResult(value, fromUnit, toUnit)
         if (fromUnit && toUnit && value>0) {
             setAnswer(ans)
         }else {
@@ -58,5 +58,3 @@ const Converter = () => {
         
     )
 }
-
-export default Converter;
