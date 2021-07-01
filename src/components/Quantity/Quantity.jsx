@@ -3,7 +3,7 @@ import firebase from 'firebase';
 import classes from './Quantity.module.css';
 import ProductList from '../ProductList/ProductList';
 
-const recalculate = (d1, d2) => {
+export const recalculate = (d1, d2) => {
   const num1 = d1 * d1;
   const num2 = d2 * d2;
   return num2 / num1;
